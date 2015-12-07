@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+	<script 
+		src="https://www.java.com/js/deployJava.js">
+	</script>
+	<script language="javascript">
+		function signDocument(base64DocumentContent) {
+			return cryptoClientApplet.signDocument(base64DocumentContent);
+		}
+	</script>
+</head>
+<body>
+    <h1>ECMGW CryptoClient</h1>
+	<script>
+		var attributes = {
+			id: 'cryptoClientApplet',
+			width:500,
+            height:500,
+			code: "ru.atc.sb.ecmgw.crypto.client.CryptoClient.class"
+		};
+		var parameters = { 
+			jnlp_href: 'cryptoClient.jnlp'
+		};
+		var version = '1.6';
+		deployJava.runApplet(attributes, parameters, version);
+	</script>
+</body>
+</html>

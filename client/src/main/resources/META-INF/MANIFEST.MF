@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Permissions: all-permissions
+Application-Name: CryptoClient
+Entry-Point: ru.atc.sb.ecmgw.crypto.client.CryptoClient
+Trusted-Library: true
+Codebase: *
+Caller-Allowable-Codebase: *
+Application-Library-Allowable-Codebase: *

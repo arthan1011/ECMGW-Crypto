@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="" href="">
+  <information>
+    <title>Applet practice</title>
+    <vendor>arthan</vendor>
+  </information>
+  <resources>
+    <!-- Application Resources -->
+    <j2se version="1.7+"
+          java-vm-args="-Djava.net.preferIPv4Stack=true"
+          href="http://java.sun.com/products/autodl/j2se" />
+    <jar href="client.jar" main="true" />
+
+  </resources>
+  <applet-desc
+      name="CryptoClient"
+      main-class="ru.atc.sb.ecmgw.crypto.client.CryptoClient"
+      width="500"
+	  height="500">
+  </applet-desc>
+  <security>
+    <all-permissions />
+  </security>
+  <update check="background"/>
+</jnlp>
