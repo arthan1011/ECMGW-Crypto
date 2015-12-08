@@ -2,12 +2,18 @@ package ru.atc.sb.ecmgw.crypto.client;
 
 import netscape.javascript.JSObject;
 import org.apache.commons.codec.binary.Base64;
+import ru.infocrypt.iccryptotools.CmsCertIncludeLength;
+import ru.infocrypt.iccryptotools.CmsDataOperation;
 import ru.infocrypt.iccryptotools.ICCryptoTools;
+import ru.infocrypt.iccryptotools.PrivateKey;
 
 import java.applet.Applet;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Created by ashamsiev on 04.12.2015
@@ -38,13 +44,36 @@ public class CryptoClient extends Applet {
         }
 
         byte[] documentContent = Base64.decodeBase64(base64DocumentContent);
+        byte[] digitalSignature;
         try {
             installDLL();
             ICCryptoTools cryptoTools = new ICCryptoTools(Config.installBinPath);
+            // TODO: похоже что пароль никак не используется
+            PrivateKey key = cryptoTools.getPrivateKeyFile(Config.privateKeyPath, "password");
+
+            digitalSignature = cryptoTools.sign(
+                    documentContent,
+                    key,
+                    readUserCert(),
+                    Config.trustedPath,
+                    Config.crlPath,
+                    CmsDataOperation.NotIncludeDataInCms,
+                    CmsCertIncludeLength.AllExceptRoot
+            );
         } catch (Exception e) {
             throw new RuntimeException("Что-то пошло не так", e);
         }
-        return new String(documentContent) + " maven build";
+        return new String(documentContent) + " maven build\n" + Base64.encodeBase64String(digitalSignature);
+    }
+
+    byte[] readUserCert() {
+        byte[] result;
+        try {
+            result = Files.readAllBytes(Paths.get(Config.userCert));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     /**
@@ -65,6 +94,11 @@ public class CryptoClient extends Applet {
         File trustedDir = new File(Config.trustedPath);
         if (!trustedDir.exists() || !trustedDir.isDirectory() || trustedDir.list().length <= 0) {
             throw new IOException("Trusted certificate directory is empty or not exists: " + Config.trustedPath);
+        }
+
+        File userCertFile = new File(Config.userCert);
+        if (!userCertFile.exists()) {
+            throw new IOException("Can not find user certificate file: " + Config.userCert);
         }
 
         File privateKeyFile = new File(Config.privateKeyPath);

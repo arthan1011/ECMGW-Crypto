@@ -14,6 +14,7 @@ public class Config {
     public static final String installBinPath;
     public static final String privateKeyPath;
     public static final String trustedPath;
+    public static final String userCert;
 
     static {
         Properties props = new Properties();
@@ -27,6 +28,7 @@ public class Config {
         trustedPath = userHome + props.getProperty("path.trusted");
         crlPath = userHome + props.getProperty("path.crl");
         privateKeyPath = userHome + props.getProperty("path.private.key");
+        userCert = userHome + props.getProperty("path.user.certificate");
     }
 
 }
