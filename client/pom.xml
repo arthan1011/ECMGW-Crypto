@@ -44,6 +44,13 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <jar.name>client</jar.name>
+    <jar.sign.alias>arthan</jar.sign.alias>
+    <jar.sign.storepass>qazqaz</jar.sign.storepass>
+    <archive.to.sign>target/${jar.name}.jar</archive.to.sign>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -51,7 +58,7 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.4.2</version>
         <configuration>
-          <finalName>client</finalName>
+          <finalName>${jar.name}</finalName>
           <filters>
             <filter>
               <artifact>*:*</artifact>
@@ -85,10 +92,10 @@
               <goal>sign</goal>
             </goals>
             <configuration>
-              <archive>target/client.jar</archive>
-              <alias>arthan</alias>
-              <storepass>qazqaz</storepass>
-              <keypass>qazqaz</keypass>
+              <archive>${archive.to.sign}</archive>
+              <alias>${jar.sign.alias}</alias>
+              <storepass>${jar.sign.storepass}</storepass>
+              <keypass>${jar.sign.storepass}</keypass>
             </configuration>
           </execution>
         </executions>

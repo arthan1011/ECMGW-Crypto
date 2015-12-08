@@ -8,7 +8,7 @@ import java.util.Properties;
  * Created by ashamsiev on 04.12.2015
  */
 public class Config {
-    private static final String userHome = System.getProperty("user.home") + "/";
+    private static final String userHome = System.getProperty("user.home").replace("\\", "/") + "/";
 
     public static final String crlPath;
     public static final String installBinPath;

@@ -1,10 +1,12 @@
 package ru.atc.sb.ecmgw.crypto.client;
 
+import netscape.javascript.JSObject;
 import org.apache.commons.codec.binary.Base64;
 import ru.infocrypt.iccryptotools.ICCryptoTools;
 
 import java.applet.Applet;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -27,6 +29,14 @@ public class CryptoClient extends Applet {
      * @return электронная подпись в виде строки Base64
      */
     public String signDocument(String base64DocumentContent) {
+        try {
+            checkDigitalSignResources();
+        } catch (IOException e) {
+            JSObject window = JSObject.getWindow(this);
+            window.eval(String.format("throw new Error('%s')", e.getMessage()));
+            throw new RuntimeException(e);
+        }
+
         byte[] documentContent = Base64.decodeBase64(base64DocumentContent);
         try {
             installDLL();
@@ -35,6 +45,32 @@ public class CryptoClient extends Applet {
             throw new RuntimeException("Что-то пошло не так", e);
         }
         return new String(documentContent) + " maven build";
+    }
+
+    /**
+     * <p>Проверяет доступны ли ресурсы необходимые для создания электронной подписи:</p>
+     * <ul>
+     *     <li>директория содержащая цепочку доверенных сертификатов (trusted path)</li>
+     *     <li>список отозванных сертификатов (CRL)</li>
+     *     <li>файл секретного ключа (private key)</li>
+     * </ul>
+     * @throws IOException если отсутствует какой-либо из необходимых ресурсов
+     */
+    private void checkDigitalSignResources() throws IOException {
+        File crlFile = new File(Config.crlPath);
+        if (!crlFile.exists()) {
+            throw new IOException("Can not find CRL file: " + Config.crlPath);
+        }
+
+        File trustedDir = new File(Config.trustedPath);
+        if (!trustedDir.exists() || !trustedDir.isDirectory() || trustedDir.list().length <= 0) {
+            throw new IOException("Trusted certificate directory is empty or not exists: " + Config.trustedPath);
+        }
+
+        File privateKeyFile = new File(Config.privateKeyPath);
+        if (!privateKeyFile.exists()) {
+            throw new IOException("Can not find private key file: " + Config.privateKeyPath);
+        }
     }
 
     public String test() {
