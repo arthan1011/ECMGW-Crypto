@@ -22,9 +22,9 @@ public class CryptoClient extends Applet {
     }
 
     /**
-     * Подписывает документ переданный в виде строки Base64 и возвращает электронную подпись в виде строки Base64
-     * @param base64DocumentContent документ на подписание в виде строки Base64
-     * @return электронная подпись в виде строки Base64
+     * РџРѕРґРїРёСЃС‹РІР°РµС‚ РґРѕРєСѓРјРµРЅС‚ РїРµСЂРµРґР°РЅРЅС‹Р№ РІ РІРёРґРµ СЃС‚СЂРѕРєРё Base64 Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЌР»РµРєС‚СЂРѕРЅРЅСѓСЋ РїРѕРґРїРёСЃСЊ РІ РІРёРґРµ СЃС‚СЂРѕРєРё Base64
+     * @param base64DocumentContent РґРѕРєСѓРјРµРЅС‚ РЅР° РїРѕРґРїРёСЃР°РЅРёРµ РІ РІРёРґРµ СЃС‚СЂРѕРєРё Base64
+     * @return СЌР»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕРґРїРёСЃСЊ РІ РІРёРґРµ СЃС‚СЂРѕРєРё Base64
      */
     public String signDocument(String base64DocumentContent) {
         byte[] documentContent = Base64.decodeBase64(base64DocumentContent);
@@ -32,9 +32,9 @@ public class CryptoClient extends Applet {
             installDLL();
             ICCryptoTools cryptoTools = new ICCryptoTools(Config.installBinPath);
         } catch (Exception e) {
-            throw new RuntimeException("Что-то пошло не так", e);
+            throw new RuntimeException("Р§С‚Рѕ-С‚Рѕ РїРѕС€Р»Рѕ РЅРµ С‚Р°Рє", e);
         }
-        return new String(documentContent);
+        return new String(documentContent) + " maven build";
     }
 
     public String test() {
