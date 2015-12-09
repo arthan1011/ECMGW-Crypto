@@ -38,8 +38,7 @@ public class CryptoClient extends Applet {
         try {
             checkDigitalSignResources();
         } catch (IOException e) {
-            JSObject window = JSObject.getWindow(this);
-            window.eval(String.format("throw new Error('%s')", e.getMessage()));
+            throwJSError(e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -64,6 +63,32 @@ public class CryptoClient extends Applet {
             throw new RuntimeException("Что-то пошло не так", e);
         }
         return new String(documentContent) + " maven build\n" + Base64.encodeBase64String(digitalSignature);
+    }
+
+    private void throwJSError(String message) {
+        JSObject window = JSObject.getWindow(this);
+        window.eval(String.format("throw new Error('%s')", message));
+    }
+
+    /**
+     * Подписывает документ, загружая его из файловой системы
+     * @param documentFilePath путь до файла документа
+     * @return электронная подпись в виде строки Base64
+     */
+    public String signDocumentFromFile(String documentFilePath) {
+        boolean documentFileNotExists = !(new File(documentFilePath)).exists();
+        if (documentFileNotExists) {
+            throwJSError("Can not find file to sign: " + documentFilePath);
+            throw new RuntimeException();
+        }
+
+        String base65DocumentContent;
+        try {
+            base65DocumentContent = Base64.encodeBase64String(Files.readAllBytes(Paths.get(documentFilePath)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return signDocument(base65DocumentContent);
     }
 
     byte[] readUserCert() {

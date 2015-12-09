@@ -10,6 +10,6 @@ import java.util.Arrays;
 public class CryptoAppletTest {
     @Test
     public void testUserCert() throws Exception {
-
+        CryptoClient cryptoClient = new CryptoClient();
     }
 }

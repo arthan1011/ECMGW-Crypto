@@ -10,6 +10,10 @@
 		function signDocument(base64DocumentContent) {
 			return cryptoClientApplet.signDocument(base64DocumentContent);
 		}
+
+		function signDocumentFromFile(filePath) {
+            return cryptoClientApplet.signDocumentFromFile(filePath);
+        }
 	</script>
 </head>
 <body>
