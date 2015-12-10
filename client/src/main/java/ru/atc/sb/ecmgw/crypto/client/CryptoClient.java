@@ -60,9 +60,9 @@ public class CryptoClient extends Applet {
                     CmsCertIncludeLength.AllExceptRoot
             );
         } catch (Exception e) {
-            throw new RuntimeException("Что-то пошло не так", e);
+            throw new RuntimeException(e);
         }
-        return new String(documentContent) + " maven build\n" + Base64.encodeBase64String(digitalSignature);
+        return Base64.encodeBase64String(digitalSignature);
     }
 
     private void throwJSError(String message) {
