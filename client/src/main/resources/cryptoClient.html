@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-	<script 
+	<script
 		src="https://www.java.com/js/deployJava.js">
 	</script>
 	<script language="javascript">
@@ -14,18 +14,27 @@
 		function signDocumentFromFile(filePath) {
             return cryptoClientApplet.signDocumentFromFile(filePath);
         }
+
+        function digitalSign() {
+            var filePath = document.getElementById("inputFilePath").value;
+            var signature = cryptoClientApplet.signDocumentFromFile(filePath);
+            document.getElementById("signOutput").value = signature;
+        }
 	</script>
 </head>
 <body>
     <h1>ECMGW CryptoClient</h1>
+    <p><label for="inputFilePath">Путь до файла</label> <input id="inputFilePath" type="text" size="50" /></p>
+    <p><label for="signOutput">Электронная подпись</label> <input id="signOutput" size="42" type="text" /></p>
+    <p><button type="button" onclick="digitalSign()">Подписать</button> </p>
 	<script>
 		var attributes = {
 			id: 'cryptoClientApplet',
 			width:500,
-            height:500,
+            height:200,
 			code: "ru.atc.sb.ecmgw.crypto.client.CryptoClient.class"
 		};
-		var parameters = { 
+		var parameters = {
 			jnlp_href: 'cryptoClient.jnlp'
 		};
 		var version = '1.6';
