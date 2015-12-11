@@ -1,5 +1,7 @@
 package ru.atc.sb.ecmgw.crypto.server.rest;
 
+import ru.atc.sb.ecmgw.crypto.server.Config;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -15,5 +17,11 @@ public class CryptoService {
     public String verify() {
         System.out.println("Verify method");
         return "Verified";
+    }
+
+    @GET
+    @Path("/binPath")
+    public String binPath() {
+        return Config.cryptoToolsBinPath;
     }
 }
