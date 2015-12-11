@@ -11,5 +11,11 @@
 
   <artifactId>crypto-server</artifactId>
 
-
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.8</version>
+    </dependency>
+  </dependencies>
 </project>
