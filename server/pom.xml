@@ -21,6 +21,13 @@
     </dependency>
 
     <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <version>1.10</version>
@@ -32,29 +39,23 @@
       <version>2.4</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>1.8</version>
-    </dependency>
-
+    <!--IC CryptoTools Dependency-->
     <dependency>
       <groupId>ru.infocrypt</groupId>
       <artifactId>cryptolib</artifactId>
       <version>3.0.4</version>
     </dependency>
-
     <dependency>
       <groupId>ru.infocrypt</groupId>
       <artifactId>ICCryptoTools</artifactId>
       <version>1.5.2</version>
     </dependency>
-
     <dependency>
       <groupId>ru.infocrypt</groupId>
       <artifactId>x509</artifactId>
       <version>1.6.1_j1.6</version>
     </dependency>
+    <!--IC CryptoTools Dependency-->
 
     <dependency>
       <groupId>log4j</groupId>
@@ -85,4 +86,29 @@
     </dependency>
     <!--Filenet Dependency-->
   </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <!--Wildfly plugin-->
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.0.2.Final</version>
+        <configuration>
+          <filename>${project.build.finalName}.war</filename>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <!--enforce Java 8-->
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

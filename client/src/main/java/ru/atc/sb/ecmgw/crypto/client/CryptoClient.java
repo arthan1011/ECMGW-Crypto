@@ -47,7 +47,6 @@ public class CryptoClient extends Applet {
         try {
             installDLL();
             ICCryptoTools cryptoTools = new ICCryptoTools(Config.installBinPath);
-            // TODO: похоже что пароль никак не используется
             PrivateKey key = cryptoTools.getPrivateKeyFile(Config.privateKeyPath, "password");
 
             digitalSignature = cryptoTools.sign(
