@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class VerificationService {
     public static boolean verifyDoc(String docID, String digitalSignature) {
+        // TODO: а вместо самого документа, здесь должен быть хэш этого документа, так как подписывался именно хэш
         byte[] documentContent = ContentService.getDocumentContent(docID);
         byte[] signature = Base64.decodeBase64(digitalSignature);
 
